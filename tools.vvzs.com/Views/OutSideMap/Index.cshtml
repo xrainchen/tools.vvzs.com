@@ -1,0 +1,40 @@
+﻿@model tools.vvzs.com.Model.Entity.OutSideMapEntity
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>微微助手工具</title>
+</head>
+<body>
+    <div>
+        <form action="@Url.Action("Add")" method="POST" onsubmit="return AjaxFormSubmit(this, AddSuccess)">
+            @Html.TextBoxFor(m => m.OutSideUrl)<input type="submit" value="转换成微信地址" />
+        </form>
+        <br />
+        @Html.TextBoxFor(m => m.OutSideUrlMd5,new {style="width:600px;"})
+    </div>
+    <script src="@Url.Content("~/js/jquery.min.js")"></script>
+    <script>
+        function AjaxFormSubmit(form, ajaxCallback) {
+            try {
+                var url = $(form).attr("action");
+                $.post(url, $(form).serialize(), function (result) {
+                    ajaxCallback(result);
+                }, "json");
+            } catch (e) {
+            }
+            return false;
+        }
+        function AddSuccess(result) {
+            if (result.Code === 200) {
+                $("#OutSideUrlMd5").val(result.Data.Url);
+            } else {
+                alert(result.Msg);
+            }
+        }
+    </script>
+</body>
+</html>

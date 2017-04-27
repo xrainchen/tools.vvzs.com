@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs
+/packages
+/Rponey.DbHelper/obj
+/Rponey.DbHelper/bin
+/tools.vvzs.com/obj
+/tools.vvzs.com/bin
+/tools.vvzs.com.Bll/obj
+/tools.vvzs.com.Bll/bin
+/tools.vvzs.com/App_Start/RouteConfig.cs
+/tools.vvzs.com.Dal/obj
+/tools.vvzs.com.Dal/bin
+/tools.vvzs.com.Model/obj
+/tools.vvzs.com.Model/bin
