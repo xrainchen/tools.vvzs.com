@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using RPoney;
+using RPoney.Utilty;
 using tools.vvzs.com.BLL;
 using tools.vvzs.com.Model.Entity;
 using PublicEnum = tools.vvzs.com.Model.PublicEnum;
@@ -54,9 +55,15 @@ namespace tools.vvzs.com.Controllers
             try
             {
                 var entity = outSideMapBll.Value.GetByOutSideUrlMd5(product);
-                //var htmlText = RPoney.Utilty.Http.RequestHelper.HttpGet(entity.OutSideUrl, Encoding.Default);
-                ViewBag.HtmlText = GetReponseHtml(entity.OutSideUrl);
-                return View();
+                if (!HttpContext.SideInWeixinBrowser())
+                {
+                    return Redirect(entity.OutSideUrl);
+                }
+                else
+                {
+                    ViewBag.HtmlText = GetReponseHtml(entity.OutSideUrl);
+                    return View();
+                }
             }
             catch (Exception)
             {
