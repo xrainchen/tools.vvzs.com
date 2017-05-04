@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using RPoney;
+using RPoney.Log;
 using RPoney.Utilty;
 using tools.vvzs.com.BLL;
 using tools.vvzs.com.Model.Entity;
@@ -65,7 +66,7 @@ namespace tools.vvzs.com.Controllers
                     return View();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return View("Error");
             }
@@ -86,6 +87,9 @@ namespace tools.vvzs.com.Controllers
                     {
                         case HttpStatusCode.OK:
                             return reader.ReadToEnd();
+                        case HttpStatusCode.Found:
+                            var locationUrl = reponse.Headers["Location"];
+                            return GetReponseHtml(locationUrl);
                     }
                 }
             }

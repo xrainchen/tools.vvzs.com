@@ -23,18 +23,25 @@ namespace HttpTools
             var req = (HttpWebRequest)WebRequest.Create(url);
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36";
             req.Method = "GET";
-            using (var reponse = req.GetResponse() as HttpWebResponse)
+            try
             {
-                var reponseStream = reponse?.GetResponseStream();
-                if (reponseStream == null) return string.Empty;
-                using (var reader = new StreamReader(reponseStream, Encoding.GetEncoding(reponse.CharacterSet??"utf-8")))
+                using (var reponse = req.GetResponse() as HttpWebResponse)
                 {
-                    switch (reponse.StatusCode)
+                    var reponseStream = reponse?.GetResponseStream();
+                    if (reponseStream == null) return string.Empty;
+                    using (var reader = new StreamReader(reponseStream, Encoding.GetEncoding(reponse.CharacterSet ?? "utf-8")))
                     {
-                        case HttpStatusCode.OK:
-                            return reader.ReadToEnd();
+                        switch (reponse.StatusCode)
+                        {
+                            case HttpStatusCode.OK:
+                                return reader.ReadToEnd();
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
             }
             return string.Empty;
         }
