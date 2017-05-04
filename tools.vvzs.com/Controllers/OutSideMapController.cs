@@ -18,6 +18,7 @@ namespace tools.vvzs.com.Controllers
         {
             return View(model);
         }
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Add(OutSideMapEntity model)
         {
@@ -66,7 +67,7 @@ namespace tools.vvzs.com.Controllers
         private string GetReponseHtml(string url)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
-            req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36";
+            req.UserAgent = Request.UserAgent;
             req.Method = "GET";
             using (var reponse = req.GetResponse() as HttpWebResponse)
             {
@@ -83,5 +84,14 @@ namespace tools.vvzs.com.Controllers
             }
             return string.Empty;
         }
+    }
+
+    public class UserAgentConfig
+    {
+        public const string Windows = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36";
+
+        public const string Android = "Mozilla/5.0 (Linux; U; Android 2.2; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1";
+
+        public const string Ios = "Mozilla/5.0 (iPad; U; CPU OS 3_2_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B500 Safari/531.21.10";
     }
 }

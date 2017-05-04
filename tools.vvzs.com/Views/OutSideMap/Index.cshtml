@@ -11,6 +11,7 @@
 <body>
     <div>
         <form action="@Url.Action("Add")" method="POST" onsubmit="return AjaxFormSubmit(this, AddSuccess)">
+            @Html.AntiForgeryToken()
             @Html.TextBoxFor(m => m.OutSideUrl)<input type="submit" value="转换成微信地址" />
         </form>
         <br />
