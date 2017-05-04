@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using RPoney;
 using RPoney.Log;
@@ -74,8 +75,9 @@ namespace tools.vvzs.com.Controllers
 
         private string GetReponseHtml(string url)
         {
+            var domain = Regex.Match(url, @"(?<=://)[a-zA-Z\.0-9]+(?=\/)").Value;
             var req = (HttpWebRequest)WebRequest.Create(url);
-            req.UserAgent = Request.UserAgent;
+            req.UserAgent = domain.Contains("taobao.com") ? UserAgentConfig.Windows : Request.UserAgent;
             req.Method = "GET";
             using (var reponse = req.GetResponse() as HttpWebResponse)
             {
