@@ -15,10 +15,10 @@ namespace HttpTools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox2.Text = GetReponseHtml(textBox1.Text);
+            textBox2.Text = GetReponseHtml(textBox1.Text, Encoding.GetEncoding(textBox3.Text));
         }
 
-        private string GetReponseHtml(string url)
+        private string GetReponseHtml(string url, Encoding encoding)
         {
             var req = (HttpWebRequest)WebRequest.Create(url);
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36";
@@ -27,7 +27,7 @@ namespace HttpTools
             {
                 var reponseStream = reponse?.GetResponseStream();
                 if (reponseStream == null) return string.Empty;
-                using (var reader = new StreamReader(reponseStream, Encoding.GetEncoding(reponse.CharacterSet??"utf-8")))
+                using (var reader = new StreamReader(reponseStream, Encoding.GetEncoding(reponse.ContentEncoding)))
                 {
                     switch (reponse.StatusCode)
                     {
